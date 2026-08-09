@@ -1,0 +1,3 @@
+option('link_mode', type: 'combo', choices: ['shared', 'static'], value: 'shared', description: 'Dependency linkage mode matching default_library')
+option('tests', type: 'feature', value: 'enabled', description: 'Build and register qualification tests')
+option('man_pages', type: 'feature', value: 'auto', description: 'Build and install the manual page')
