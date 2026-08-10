@@ -27,6 +27,8 @@ enum class publication_error_code : std::uint8_t {
   rejected_object_path_mismatch = 6, ///< Reopened observation names another path.
   rejected_object_side_mismatch = 7, ///< Reopened provenance disagrees with projection.
   publication_refused = 8,           ///< Durable inventory refused the verified batch.
+  rejected_object_plan_mismatch = 9, ///< Reopened record belongs to another plan.
+  rejected_object_attempt_mismatch = 10, ///< Reopened record belongs to another attempt.
 };
 
 /** Typed semantic refusal at the apply-POSIX reconciliation boundary. */
@@ -68,7 +70,9 @@ private:
  *         cannot be read, locked, or durably updated.
  *
  * Every projected tuple is reopened and validated before any reconciliation
- * generation is published. The function does not derive store identity from a
+ * generation is published. Reopened records must belong to the exact operation
+ * plan and physical application attempt retained by the projection. The
+ * function does not derive store identity from a
  * pathname or descriptor: @p routed_store_identity is the caller's explicit
  * routing assertion for the already-authorized store handle.
  */

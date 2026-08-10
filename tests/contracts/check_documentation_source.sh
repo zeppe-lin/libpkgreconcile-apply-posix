@@ -22,6 +22,10 @@ grep -F 'does not derive' "$root/README.md" >/dev/null || fail 'README invents o
 grep -F 'There is intentionally no FD-to-store-identity derivation protocol' "$root/DESIGN.md" >/dev/null || fail 'DESIGN omits explicit routing limitation'
 grep -F 'Only after every tuple passes' "$root/DESIGN.md" >/dev/null || fail 'DESIGN omits verification-before-publication order'
 grep -F 'does not derive that' "$root/man/libpkgreconcile-apply-posix.3.scdoc" >/dev/null || fail 'manual omits routing limitation'
+for document in "$root/README.md" "$root/DESIGN.md" "$root/man/libpkgreconcile-apply-posix.3.scdoc"; do
+  grep -Ei 'operation[- ]plan' "$document" >/dev/null || fail "$(basename "$document") omits plan binding verification"
+  grep -Ei 'application[- ]attempt' "$document" >/dev/null || fail "$(basename "$document") omits attempt binding verification"
+done
 
 if grep -RInE '/var/lib/pkg/rejected|by-id-v[0-9]|record-v[0-9]-|generations/|renameat2|flock\(' \
     "$root/README.md" "$root/DESIGN.md" "$root/TESTING.md" "$root/MAINTAINING.md" "$root/man" >/dev/null; then

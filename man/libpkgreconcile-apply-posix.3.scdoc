@@ -13,7 +13,8 @@ libpkgreconcile-apply-posix - verify rejected evidence before durable reconcilia
 
 *publish_verified_projection()* reopens every projected rejected record by its
 exact record identity and verifies the routed store identity, object identity,
-package path, and concrete source side. Only after every tuple is verified is
+operation-plan identity, physical application-attempt identity, package path,
+and concrete source side. Only after every tuple is verified is
 the complete pending batch offered to the reconciliation store.
 
 # ROUTING

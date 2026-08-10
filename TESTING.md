@@ -18,6 +18,8 @@ POSIX rejected-object and reconciliation stores. It covers:
 - target-binding refusal;
 - routed-store mismatch refusal;
 - missing rejected-record refusal;
+- reopened operation-plan mismatch refusal;
+- reopened application-attempt mismatch refusal;
 - reopened path mismatch refusal;
 - reopened source-side mismatch refusal;
 - all-before-publish atomicity for a mixed valid/invalid batch; and

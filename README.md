@@ -35,6 +35,8 @@ object locator and verifies:
 - the locator names the routed rejected store;
 - the exact rejected record reopens by identity;
 - the reopened object reports that same record identity;
+- the reopened record belongs to the projection's exact operation plan and
+  physical application attempt;
 - its observed package path equals the projected canonical path; and
 - its concrete source (`incoming` or `old`) agrees with the projected
   reconciliation side (`incoming` or `prior_installed`).

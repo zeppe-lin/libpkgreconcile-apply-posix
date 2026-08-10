@@ -100,6 +100,16 @@ pkgreconcile::posix::pending_publication_receipt publish_verified_projection(
     verified.push_back(std::move(*object));
   }
 
+  for (const auto& object : verified) {
+    if (object.plan() != projection.plan())
+      throw refuse(publication_error_code::rejected_object_plan_mismatch,
+                   "reopened rejected object belongs to another operation plan");
+
+    if (object.attempt() != projection.attempt())
+      throw refuse(publication_error_code::rejected_object_attempt_mismatch,
+                   "reopened rejected object belongs to another application attempt");
+  }
+
   try {
     return reconciliation_store.publish_pending(projection.pending());
   } catch (const std::invalid_argument&) {

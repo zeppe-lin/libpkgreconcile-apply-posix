@@ -54,6 +54,9 @@ value the composition layer requires:
 - locator store identity equal to the routed store identity;
 - successful direct identity reopening through `libpkgapply-posix`;
 - reopened record identity equal to the locator's record identity;
+- reopened operation-plan identity equal to the projection's retained plan;
+- reopened application-attempt identity equal to the projection's retained
+  physical attempt;
 - reopened observation path equal to the projected path; and
 - reopened source equal to the projected retained side.
 

@@ -650,6 +650,42 @@ int main()
     TEST_CHECK(missing_inventory.read().size() == 0U);
   });
 
+
+  runner.run("reopened plan must match completed projection", [&] {
+    test_support::temp_directory mismatch_inventory_root;
+    const auto projection = project_incoming_record(
+        context, "tool", incoming.record, 60);
+    TEST_CHECK(projection.plan() != incoming.projection.plan());
+    pkgreconcile::posix::inventory_generation_store mismatch_inventory(
+        mismatch_inventory_root.path(), projection.target());
+    require_publication_error(
+        [&] {
+          (void)publish_verified_projection(
+              projection, context.rejected_store(), rejected_store,
+              mismatch_inventory);
+        },
+        publication_error_code::rejected_object_plan_mismatch);
+    TEST_CHECK(mismatch_inventory.read().size() == 0U);
+  });
+
+  runner.run("reopened attempt must match completed projection", [&] {
+    test_support::temp_directory mismatch_inventory_root;
+    const auto projection = project_incoming_record(
+        context, "tool", incoming.record, 30);
+    TEST_CHECK(projection.plan() == incoming.projection.plan());
+    TEST_CHECK(projection.attempt() != incoming.projection.attempt());
+    pkgreconcile::posix::inventory_generation_store mismatch_inventory(
+        mismatch_inventory_root.path(), projection.target());
+    require_publication_error(
+        [&] {
+          (void)publish_verified_projection(
+              projection, context.rejected_store(), rejected_store,
+              mismatch_inventory);
+        },
+        publication_error_code::rejected_object_attempt_mismatch);
+    TEST_CHECK(mismatch_inventory.read().size() == 0U);
+  });
+
   runner.run("reopened path must match projected path", [&] {
     test_support::temp_directory mismatch_inventory_root;
     const auto projection = project_incoming_record(
