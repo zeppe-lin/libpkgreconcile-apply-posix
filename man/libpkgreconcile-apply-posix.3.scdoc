@@ -2,20 +2,20 @@ libpkgreconcile-apply-posix(3)
 
 # NAME
 
-libpkgreconcile-apply-posix - verify rejected evidence before durable reconciliation publication
+libpkgreconcile-apply-posix - verify rejected evidence before durable \
+reconciliation publication
 
 # DESCRIPTION
 
-*libpkgreconcile-apply-posix* composes a completed
-*libpkgreconcile-apply* projection with an explicitly routed
-*libpkgapply-posix* rejected-object store and a target-bound
-*libpkgreconcile-posix* inventory store.
+*libpkgreconcile-apply-posix* composes a completed *libpkgreconcile-apply*
+projection with an explicitly routed *libpkgapply-posix* rejected-object store
+and a target-bound *libpkgreconcile-posix* inventory store.
 
 *publish_verified_projection()* reopens every projected rejected record by its
 exact record identity and verifies the routed store identity, object identity,
 operation-plan identity, physical application-attempt identity, package path,
-and concrete source side. Only after every tuple is verified is
-the complete pending batch offered to the reconciliation store.
+and concrete source side. Only after every tuple is verified is the complete
+pending batch offered to the reconciliation store.
 
 # ROUTING
 
@@ -41,4 +41,6 @@ dispositions, or coordinate transaction restart/publication ordering.
 
 # SEE ALSO
 
-libpkgreconcile-apply(3), libpkgapply-posix(3), libpkgreconcile-posix(3)
+*libpkgreconcile-apply*(3),
+*libpkgapply-posix*(3),
+*libpkgreconcile-posix*(3)

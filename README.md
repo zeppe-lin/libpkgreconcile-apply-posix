@@ -1,8 +1,8 @@
 # libpkgreconcile-apply-posix
 
 `libpkgreconcile-apply-posix` is the native C++17 provider-composition boundary
-between projected completed application evidence and durable POSIX reconciliation
-state.
+between projected completed application evidence and durable POSIX
+reconciliation state.
 
 It joins three authorities without absorbing any of them:
 

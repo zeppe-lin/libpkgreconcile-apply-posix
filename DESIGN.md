@@ -38,11 +38,11 @@ A rejected-object locator from `libpkgreconcile-apply` contains the exact
 Orchestration resolves the store identity to an authorized POSIX store handle.
 This library receives both the routed identity and that handle.
 
-There is intentionally no FD-to-store-identity derivation protocol here. A
-filesystem directory does not become identity merely because it was opened.
+There is intentionally no FD-to-store-identity derivation protocol here.
+A filesystem directory does not become identity merely because it was opened.
 The explicit identity is the routing assertion; the descriptor-anchored provider
-handle is the mechanism authority. Their relationship is supplied by the
-routing owner.
+handle is the mechanism authority. Their relationship is supplied by the routing
+owner.
 
 ## Validation before publication
 

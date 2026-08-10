@@ -13,7 +13,11 @@ if grep -RInE '#[[:space:]]*include[[:space:]]*<(libpkgstate|pkgctl|libpkgtransa
   fail 'product imports controller, state, planner, transaction, or raw POSIX authority'
 fi
 
-actual=$(sed -n "s/^\([A-Za-z0-9_]*_dep\)[[:space:]]*=[[:space:]]*dependency('\([^']*\)'.*/\2/p" "$root/meson.build" | sort -u)
+actual=$(perl -0777 -ne '
+  while (/dependency\s*\(\s*['\''"]([^'\''"]+)['\''"]/g) {
+    print "$1\n"
+  }
+' "$root/meson.build" | sort -u)
 expected='libpkgapply-posix
 libpkgreconcile-apply
 libpkgreconcile-posix'

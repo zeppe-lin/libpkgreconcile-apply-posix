@@ -54,17 +54,19 @@ pkgreconcile::posix::pending_publication_receipt publish_verified_projection(
     const pkgapply::posix::application_rejected_object_store& rejected_store,
     pkgreconcile::posix::inventory_generation_store& reconciliation_store)
 {
-  if (reconciliation_store.target_binding() != projection.target())
+  if (reconciliation_store.target_binding() != projection.target()) {
     throw refuse(publication_error_code::target_binding_mismatch,
                  "reconciliation store is bound to another managed target");
+  }
 
   std::vector<pkgapply::posix::identified_rejected_object> verified;
   verified.reserve(projection.pending().size());
 
   for (const auto& pending : projection.pending()) {
-    if (pending.target() != projection.target())
+    if (pending.target() != projection.target()) {
       throw refuse(publication_error_code::target_binding_mismatch,
                    "projected pending value names another managed target");
+    }
 
     pkgreconcile::apply_adapter::rejected_object_reference reference = [&] {
       try {
@@ -76,38 +78,45 @@ pkgreconcile::posix::pending_publication_receipt publish_verified_projection(
       }
     }();
 
-    if (reference.store() != routed_store_identity)
+    if (reference.store() != routed_store_identity) {
       throw refuse(publication_error_code::rejected_store_binding_mismatch,
                    "projected object names another rejected store");
+    }
 
     auto object = rejected_store.load_identified(reference.record());
-    if (!object)
+    if (!object) {
       throw refuse(publication_error_code::rejected_object_missing,
                    "projected rejected object is not present in the routed store");
+    }
 
-    if (object->identity() != reference.record())
+    if (object->identity() != reference.record()) {
       throw refuse(publication_error_code::rejected_object_identity_mismatch,
                    "reopened rejected object reports another record identity");
+    }
 
-    if (!same_path(pending.path(), object->observation().path()))
+    if (!same_path(pending.path(), object->observation().path())) {
       throw refuse(publication_error_code::rejected_object_path_mismatch,
                    "reopened rejected object names another path");
+    }
 
-    if (object->source() != expected_source(pending.side()))
+    if (object->source() != expected_source(pending.side())) {
       throw refuse(publication_error_code::rejected_object_side_mismatch,
                    "reopened rejected-object provenance disagrees with projection");
+    }
 
     verified.push_back(std::move(*object));
   }
 
   for (const auto& object : verified) {
-    if (object.plan() != projection.plan())
+    if (object.plan() != projection.plan()) {
       throw refuse(publication_error_code::rejected_object_plan_mismatch,
                    "reopened rejected object belongs to another operation plan");
+    }
 
-    if (object.attempt() != projection.attempt())
+    if (object.attempt() != projection.attempt()) {
       throw refuse(publication_error_code::rejected_object_attempt_mismatch,
                    "reopened rejected object belongs to another application attempt");
+    }
   }
 
   try {
