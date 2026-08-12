@@ -8,6 +8,8 @@ Initial native provider-composition boundary.
   `libpkgapply-posix` store;
 - verify record identity, operation plan, physical application attempt, package
   path, and concrete source side;
+- keep rejected-object verification descriptor use bounded independently of
+  projection batch size;
 - publish only a fully verified batch through `libpkgreconcile-posix`;
 - preserve provider mechanism errors instead of translating them into generic
   composition failures; and

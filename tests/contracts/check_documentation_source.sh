@@ -21,6 +21,7 @@ grep -F 'Every tuple is verified before' "$root/README.md" >/dev/null || fail 'R
 grep -F 'does not derive' "$root/README.md" >/dev/null || fail 'README invents or omits store-identity derivation boundary'
 grep -F 'There is intentionally no FD-to-store-identity derivation protocol' "$root/DESIGN.md" >/dev/null || fail 'DESIGN omits explicit routing limitation'
 grep -F 'Only after every tuple passes' "$root/DESIGN.md" >/dev/null || fail 'DESIGN omits verification-before-publication order'
+grep -F 'Descriptor pressure is therefore bounded independently' "$root/DESIGN.md" >/dev/null || fail 'DESIGN omits bounded descriptor verification'
 grep -F 'does not derive that' "$root/man/libpkgreconcile-apply-posix.3.scdoc" >/dev/null || fail 'manual omits routing limitation'
 for document in "$root/README.md" "$root/DESIGN.md" "$root/man/libpkgreconcile-apply-posix.3.scdoc"; do
   grep -Ei 'operation[- ]plan' "$document" >/dev/null || fail "$(basename "$document") omits plan binding verification"

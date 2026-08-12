@@ -70,9 +70,10 @@ private:
  *         cannot be read, locked, or durably updated.
  *
  * Every projected tuple is reopened and validated before any reconciliation
- * generation is published. Reopened records must belong to the exact operation
- * plan and physical application attempt retained by the projection. The
- * function does not derive store identity from a
+ * generation is published. Reopened provider handles are released per tuple,
+ * so verification descriptor use does not grow with batch size. Reopened
+ * records must belong to the exact operation plan and physical application
+ * attempt retained by the projection. The function does not derive store identity from a
  * pathname or descriptor: @p routed_store_identity is the caller's explicit
  * routing assertion for the already-authorized store handle.
  */

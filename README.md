@@ -41,9 +41,10 @@ object locator and verifies:
 - its concrete source (`incoming` or `old`) agrees with the projected
   reconciliation side (`incoming` or `prior_installed`).
 
-Every tuple is verified before `publish_pending()` is called. If any member of a
-batch fails verification, no reconciliation generation is published by this
-operation.
+Every tuple is verified before `publish_pending()` is called. Each reopened
+provider object is released after that tuple is verified, so descriptor use
+stays bounded independently of batch size. If any member of a batch fails
+verification, no reconciliation generation is published by this operation.
 
 ## Routing boundary
 

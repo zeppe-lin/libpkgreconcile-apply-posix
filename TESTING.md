@@ -22,7 +22,9 @@ POSIX rejected-object and reconciliation stores. It covers:
 - reopened application-attempt mismatch refusal;
 - reopened path mismatch refusal;
 - reopened source-side mismatch refusal;
-- all-before-publish atomicity for a mixed valid/invalid batch; and
+- all-before-publish atomicity for a mixed valid/invalid batch;
+- bounded descriptor use for a large verified batch under a reduced
+  `RLIMIT_NOFILE`; and
 - verified old-object evidence becoming `prior_installed`.
 
 The incoming fixture uses a symbolic-link object deliberately: the test is about

@@ -5,7 +5,6 @@
 
 #include <filesystem>
 #include <utility>
-#include <vector>
 
 namespace pkgreconcile::apply_posix {
 namespace {
@@ -59,9 +58,6 @@ pkgreconcile::posix::pending_publication_receipt publish_verified_projection(
                  "reconciliation store is bound to another managed target");
   }
 
-  std::vector<pkgapply::posix::identified_rejected_object> verified;
-  verified.reserve(projection.pending().size());
-
   for (const auto& pending : projection.pending()) {
     if (pending.target() != projection.target()) {
       throw refuse(publication_error_code::target_binding_mismatch,
@@ -104,16 +100,12 @@ pkgreconcile::posix::pending_publication_receipt publish_verified_projection(
                    "reopened rejected-object provenance disagrees with projection");
     }
 
-    verified.push_back(std::move(*object));
-  }
-
-  for (const auto& object : verified) {
-    if (object.plan() != projection.plan()) {
+    if (object->plan() != projection.plan()) {
       throw refuse(publication_error_code::rejected_object_plan_mismatch,
                    "reopened rejected object belongs to another operation plan");
     }
 
-    if (object.attempt() != projection.attempt()) {
+    if (object->attempt() != projection.attempt()) {
       throw refuse(publication_error_code::rejected_object_attempt_mismatch,
                    "reopened rejected object belongs to another application attempt");
     }

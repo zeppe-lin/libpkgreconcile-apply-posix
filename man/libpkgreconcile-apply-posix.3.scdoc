@@ -14,8 +14,10 @@ and a target-bound *libpkgreconcile-posix* inventory store.
 *publish_verified_projection()* reopens every projected rejected record by its
 exact record identity and verifies the routed store identity, object identity,
 operation-plan identity, physical application-attempt identity, package path,
-and concrete source side. Only after every tuple is verified is the complete
-pending batch offered to the reconciliation store.
+and concrete source side. Reopened provider handles are released per tuple so
+verification descriptor use remains bounded independently of batch size. Only
+after every tuple is verified is the complete pending batch offered to the
+reconciliation store.
 
 # ROUTING
 

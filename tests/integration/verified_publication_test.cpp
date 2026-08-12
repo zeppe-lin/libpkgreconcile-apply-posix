@@ -18,6 +18,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <sys/resource.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <utility>
@@ -198,6 +199,37 @@ const pkgapply::application_path_observation& find_observation(
   return *value;
 }
 
+class scoped_nofile_limit final {
+public:
+  explicit scoped_nofile_limit(rlim_t maximum)
+  {
+    if (::getrlimit(RLIMIT_NOFILE, &previous_) != 0)
+      throw std::runtime_error("cannot read descriptor limit");
+
+    if (previous_.rlim_cur <= maximum)
+      return;
+
+    auto limited = previous_;
+    limited.rlim_cur = maximum;
+    if (::setrlimit(RLIMIT_NOFILE, &limited) != 0)
+      throw std::runtime_error("cannot lower descriptor limit");
+    changed_ = true;
+  }
+
+  scoped_nofile_limit(const scoped_nofile_limit&) = delete;
+  scoped_nofile_limit& operator=(const scoped_nofile_limit&) = delete;
+
+  ~scoped_nofile_limit()
+  {
+    if (changed_)
+      static_cast<void>(::setrlimit(RLIMIT_NOFILE, &previous_));
+  }
+
+private:
+  struct rlimit previous_ {};
+  bool changed_ = false;
+};
+
 struct incoming_case final {
   pkgreconcile::apply_adapter::completed_reconciliation_projection projection;
   pkgapply::rejected_object_record_identity record;
@@ -268,6 +300,85 @@ incoming_case make_incoming_case(
   return {
       pkgreconcile::apply_adapter::project_completed_application(context, evidence),
       *published.record()};
+}
+
+pkgreconcile::apply_adapter::completed_reconciliation_projection
+make_incoming_batch_case(
+    const pkgapply::application_target_context& context,
+    pkgapply::posix::application_rejected_object_store& store,
+    std::size_t count,
+    std::uint8_t seed)
+{
+  using namespace pkgapply::test::fixture;
+  planning_authorities authorities(context.target());
+  auto policy = policy_snapshot(
+      authorities,
+      path_policy(pkgplan::incoming_path_policy::retain(
+          pkgplan::rejected_object_policy::stage,
+          pkgplan::retained_active_ownership_policy::do_not_claim_operated_package)));
+
+  std::vector<pkgimage::package_entry> entries;
+  std::vector<pkgplan::target_path_observation> observed;
+  std::vector<pkgplan::installed_ownership_claim> claims;
+  entries.reserve(count);
+  observed.reserve(count);
+  claims.reserve(count);
+
+  const auto active = symlink_object("old-target");
+  for (std::size_t i = 0; i < count; ++i) {
+    const auto path = pkgplan::package_path::parse(
+        "bulk/item-" + std::to_string(i));
+    entries.push_back(incoming_symlink_entry(path.string()));
+    observed.push_back(pkgplan::target_path_observation::present(
+        pkgplan::filesystem_object_fact(path, active)));
+    claims.emplace_back(path, authorities.installed_package, active);
+  }
+
+  const auto digest = archive_digest(static_cast<std::uint8_t>(seed + 2));
+  const auto plan = upgrade_plan(
+      authorities, entries, std::move(observed), std::move(claims),
+      std::move(policy), digest);
+  const auto request = pkgapply::upgrade_application_request::make(
+      plan, incoming_package(entries, digest, "2.0"), context, control());
+  const auto physical_attempt = attempt(request.identity(), context, seed);
+  const pkgimage::package_image image(entries);
+
+  std::vector<pkgapply::application_path_consequence> consequences;
+  consequences.reserve(plan.paths().size());
+  for (const auto& decision : plan.paths()) {
+    const auto rejected_effect =
+        pkgapply::test::fixture::rejected_request(plan, decision.path());
+    const auto published = store.publish_incoming(
+        physical_attempt, plan.identity(), rejected_effect, image);
+    if (!published.record())
+      throw std::runtime_error("batch rejected object was not published");
+
+    const auto before = pkgapply::application_path_observation::present(
+        symlink(decision.path(), "old-target"));
+    consequences.emplace_back(
+        decision.path(),
+        pkgapply::application_path_role::incoming_entry,
+        decision.active(),
+        decision.rejected(),
+        decision.incoming_entry(),
+        decision.ownership(),
+        pkgapply::application_effect_status::completed,
+        pkgapply::application_effect_status::completed,
+        before,
+        before,
+        *published.record(),
+        pkgapply::ownership_publication_status::eligible);
+  }
+
+  const auto evidence = pkgapply::completed_application_evidence::upgrade(
+      request,
+      physical_attempt.identity(),
+      app_identity<pkgapply::lease_bound_state_projection_identity>(seed + 4),
+      app_identity<pkgapply::application_journal_identity>(seed + 5),
+      std::move(consequences),
+      durability());
+  return pkgreconcile::apply_adapter::project_completed_application(
+      context, evidence);
 }
 
 pkgreconcile::apply_adapter::completed_reconciliation_projection
@@ -736,6 +847,21 @@ int main()
         },
         publication_error_code::rejected_object_missing);
     TEST_CHECK(batch_inventory.read().size() == 0U);
+  });
+
+  runner.run("large verified batch has bounded descriptor footprint", [&] {
+    test_support::temp_directory batch_inventory_root;
+    constexpr std::size_t batch_size = 48U;
+    const auto projection = make_incoming_batch_case(
+        context, rejected_store, batch_size, 120);
+    pkgreconcile::posix::inventory_generation_store batch_inventory(
+        batch_inventory_root.path(), projection.target());
+
+    scoped_nofile_limit descriptor_limit(32);
+    const auto receipt = publish_verified_projection(
+        projection, context.rejected_store(), rejected_store, batch_inventory);
+    TEST_CHECK(receipt.published() == batch_size);
+    TEST_CHECK(batch_inventory.read().size() == batch_size);
   });
 
   runner.run("old rejected evidence publishes as prior installed", [&] {

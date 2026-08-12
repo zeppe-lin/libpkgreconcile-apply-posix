@@ -60,9 +60,12 @@ value the composition layer requires:
 - reopened observation path equal to the projected path; and
 - reopened source equal to the projected retained side.
 
-Only after every tuple passes does the function invoke one
-`inventory_generation_store::publish_pending()` operation. Verification failure
-therefore cannot leave a prefix of the batch published.
+Each reopened rejected-object handle is released after its tuple has been fully
+verified; all-before-publish does not require retaining provider handles for the
+whole batch. Descriptor pressure is therefore bounded independently of the
+number of pending tuples. Only after every tuple passes does the function invoke
+one `inventory_generation_store::publish_pending()` operation. Verification
+failure therefore cannot leave a prefix of the batch published.
 
 ## Negative boundary
 
