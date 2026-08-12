@@ -60,8 +60,10 @@ value the composition layer requires:
 - reopened observation path equal to the projected path; and
 - reopened source equal to the projected retained side.
 
-Each reopened rejected-object handle is released after its tuple has been fully
-verified; all-before-publish does not require retaining provider handles for the
+Each reopened rejected-object handle is released after its local
+identity/path/source facts and exact plan/attempt identities are captured. The
+operation bindings are then verified from those copied identities.
+All-before-publish therefore does not require retaining provider handles for the
 whole batch. Descriptor pressure is therefore bounded independently of the
 number of pending tuples. Only after every tuple passes does the function invoke
 one `inventory_generation_store::publish_pending()` operation. Verification

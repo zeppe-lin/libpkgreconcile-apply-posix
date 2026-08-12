@@ -327,7 +327,7 @@ make_incoming_batch_case(
   const auto active = symlink_object("old-target");
   for (std::size_t i = 0; i < count; ++i) {
     const auto path = pkgplan::package_path::parse(
-        "bulk/item-" + std::to_string(i));
+        "bulk-item-" + std::to_string(i));
     entries.push_back(incoming_symlink_entry(path.string()));
     observed.push_back(pkgplan::target_path_observation::present(
         pkgplan::filesystem_object_fact(path, active)));

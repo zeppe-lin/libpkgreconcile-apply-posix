@@ -42,9 +42,11 @@ object locator and verifies:
   reconciliation side (`incoming` or `prior_installed`).
 
 Every tuple is verified before `publish_pending()` is called. Each reopened
-provider object is released after that tuple is verified, so descriptor use
-stays bounded independently of batch size. If any member of a batch fails
-verification, no reconciliation generation is published by this operation.
+provider object is released after its local identity/path/source facts and exact
+operation binding identities are captured; plan/attempt binding is then checked
+from those copied identities before publication. Descriptor use therefore stays
+bounded independently of batch size. If any member of a batch fails verification,
+no reconciliation generation is published by this operation.
 
 ## Routing boundary
 
