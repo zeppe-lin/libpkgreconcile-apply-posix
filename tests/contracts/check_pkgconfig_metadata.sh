@@ -11,8 +11,8 @@ version=$(sed -n 's/^Version:[[:space:]]*//p' "$pc")
 [ "$version" = "$expected_version" ] || fail "version is '$version', expected '$expected_version'"
 requires=$(sed -n 's/^Requires:[[:space:]]*//p' "$pc")
 for required in \
-  'libpkgreconcile-apply >= 0.1.0' \
-  'libpkgapply-posix >= 3.2.0' \
+  'libpkgreconcile-apply >= 0.1.1' \
+  'libpkgapply-posix >= 3.2.1' \
   'libpkgreconcile-posix >= 0.1.0'; do
   printf '%s\n' "$requires" | grep -F "$required" >/dev/null || fail "missing public dependency: $required"
 done

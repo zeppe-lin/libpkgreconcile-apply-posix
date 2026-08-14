@@ -15,15 +15,15 @@ if get_option('tests').allowed()
 
   # This suite proves the real provider composition. Planner/build dependencies
   # are qualification-only and do not enter the product dependency boundary.
-  libpkgsource_test_dep = dependency('libpkgsource', required: true, static: want_static)
-  libpkgcatalog_test_dep = dependency('libpkgcatalog', required: true, static: want_static)
-  libpkgresolve_test_dep = dependency('libpkgresolve', required: true, static: want_static)
-  libpkgbuild_test_dep = dependency('libpkgbuild', required: true, static: want_static)
-  libpkgimage_test_dep = dependency('libpkgimage', required: true, static: want_static)
-  libpkgplan_test_dep = dependency('libpkgplan', required: true, static: want_static)
-  libpkgbuild_image_test_dep = dependency('libpkgbuild-image', required: true, static: want_static)
-  libpkgsource_plan_test_dep = dependency('libpkgsource-plan', required: true, static: want_static)
-  libpkgbuild_plan_test_dep = dependency('libpkgbuild-plan', required: true, static: want_static)
+  libpkgsource_test_dep = dependency('libpkgsource', version: ['>=4.0.0', '<5.0.0'], required: true, static: want_static)
+  libpkgcatalog_test_dep = dependency('libpkgcatalog', version: ['>=4.0.0', '<5.0.0'], required: true, static: want_static)
+  libpkgresolve_test_dep = dependency('libpkgresolve', version: ['>=4.0.0', '<5.0.0'], required: true, static: want_static)
+  libpkgbuild_test_dep = dependency('libpkgbuild', version: ['>=3.0.1', '<4.0.0'], required: true, static: want_static)
+  libpkgimage_test_dep = dependency('libpkgimage', version: ['>=0.4.1', '<1.0.0'], required: true, static: want_static)
+  libpkgplan_test_dep = dependency('libpkgplan', version: ['>=0.3.1', '<1.0.0'], required: true, static: want_static)
+  libpkgbuild_image_test_dep = dependency('libpkgbuild-image', version: ['>=1.0.1', '<2.0.0'], required: true, static: want_static)
+  libpkgsource_plan_test_dep = dependency('libpkgsource-plan', version: ['>=2.0.0', '<3.0.0'], required: true, static: want_static)
+  libpkgbuild_plan_test_dep = dependency('libpkgbuild-plan', version: ['>=1.1.0', '<2.0.0'], required: true, static: want_static)
 
   integration_test = executable(
     'verified-publication-integration-test',

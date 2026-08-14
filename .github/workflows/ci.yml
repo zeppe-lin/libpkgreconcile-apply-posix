@@ -33,25 +33,25 @@ jobs:
     steps:
       - name: Check out libpkgreconcile-apply-posix
         uses: actions/checkout@v4
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgsource, ref: v3.0.0, path: dependencies/libpkgsource}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgstate, ref: v3.0.0, path: dependencies/libpkgstate}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgimage, ref: v0.4.0, path: dependencies/libpkgimage}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgcatalog, ref: v3.0.0, path: dependencies/libpkgcatalog}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgresolve, ref: v2.0.0, path: dependencies/libpkgresolve}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgbuild, ref: v3.0.0, path: dependencies/libpkgbuild}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgplan, ref: v0.3.0, path: dependencies/libpkgplan}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgbuild-image, ref: v1.0.0, path: dependencies/libpkgbuild-image}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgsource-plan, ref: v1.0.0, path: dependencies/libpkgsource-plan}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgbuild-plan, ref: v1.0.0, path: dependencies/libpkgbuild-plan}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgapply, ref: v3.0.0, path: dependencies/libpkgapply}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgsource, ref: v4.1.0, path: dependencies/libpkgsource}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgstate, ref: v3.1.0, path: dependencies/libpkgstate}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgimage, ref: v0.4.1, path: dependencies/libpkgimage}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgcatalog, ref: v4.0.0, path: dependencies/libpkgcatalog}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgresolve, ref: v4.0.0, path: dependencies/libpkgresolve}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgbuild, ref: v3.0.1, path: dependencies/libpkgbuild}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgplan, ref: v0.3.1, path: dependencies/libpkgplan}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgbuild-image, ref: v1.0.1, path: dependencies/libpkgbuild-image}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgsource-plan, ref: v2.0.0, path: dependencies/libpkgsource-plan}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgbuild-plan, ref: v1.1.0, path: dependencies/libpkgbuild-plan}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgapply, ref: v3.0.1, path: dependencies/libpkgapply}}
       - name: Check out libpkgreconcile 0.3.0
         uses: actions/checkout@v4
         with:
           repository: zeppe-lin/libpkgreconcile
           ref: v0.3.0
           path: dependencies/libpkgreconcile
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgapply-posix, ref: v3.2.0, path: dependencies/libpkgapply-posix}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgreconcile-apply, ref: v0.1.0, path: dependencies/libpkgreconcile-apply}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgapply-posix, ref: v3.2.1, path: dependencies/libpkgapply-posix}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgreconcile-apply, ref: v0.1.1, path: dependencies/libpkgreconcile-apply}}
       - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgreconcile-posix, ref: v0.1.0, path: dependencies/libpkgreconcile-posix}}
       - name: Install build dependencies
         run: |
@@ -105,20 +105,20 @@ jobs:
     steps:
       - name: Check out libpkgreconcile-apply-posix
         uses: actions/checkout@v4
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgsource, ref: v3.0.0, path: dependencies/libpkgsource}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgstate, ref: v3.0.0, path: dependencies/libpkgstate}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgimage, ref: v0.4.0, path: dependencies/libpkgimage}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgcatalog, ref: v3.0.0, path: dependencies/libpkgcatalog}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgresolve, ref: v2.0.0, path: dependencies/libpkgresolve}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgbuild, ref: v3.0.0, path: dependencies/libpkgbuild}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgplan, ref: v0.3.0, path: dependencies/libpkgplan}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgbuild-image, ref: v1.0.0, path: dependencies/libpkgbuild-image}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgsource-plan, ref: v1.0.0, path: dependencies/libpkgsource-plan}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgbuild-plan, ref: v1.0.0, path: dependencies/libpkgbuild-plan}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgapply, ref: v3.0.0, path: dependencies/libpkgapply}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgsource, ref: v4.1.0, path: dependencies/libpkgsource}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgstate, ref: v3.1.0, path: dependencies/libpkgstate}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgimage, ref: v0.4.1, path: dependencies/libpkgimage}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgcatalog, ref: v4.0.0, path: dependencies/libpkgcatalog}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgresolve, ref: v4.0.0, path: dependencies/libpkgresolve}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgbuild, ref: v3.0.1, path: dependencies/libpkgbuild}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgplan, ref: v0.3.1, path: dependencies/libpkgplan}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgbuild-image, ref: v1.0.1, path: dependencies/libpkgbuild-image}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgsource-plan, ref: v2.0.0, path: dependencies/libpkgsource-plan}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgbuild-plan, ref: v1.1.0, path: dependencies/libpkgbuild-plan}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgapply, ref: v3.0.1, path: dependencies/libpkgapply}}
       - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgreconcile, ref: v0.3.0, path: dependencies/libpkgreconcile}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgapply-posix, ref: v3.2.0, path: dependencies/libpkgapply-posix}}
-      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgreconcile-apply, ref: v0.1.0, path: dependencies/libpkgreconcile-apply}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgapply-posix, ref: v3.2.1, path: dependencies/libpkgapply-posix}}
+      - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgreconcile-apply, ref: v0.1.1, path: dependencies/libpkgreconcile-apply}}
       - {uses: actions/checkout@v4, with: {repository: zeppe-lin/libpkgreconcile-posix, ref: v0.1.0, path: dependencies/libpkgreconcile-posix}}
       - name: Install build dependencies
         run: |
