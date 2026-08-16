@@ -47,6 +47,11 @@ libpkgreconcile_apply_posix_dep = declare_dependency(
   ],
 )
 
+meson.override_dependency(
+  'libpkgreconcile-apply-posix',
+  libpkgreconcile_apply_posix_dep,
+)
+
 install_headers(
   '../include/libpkgreconcile-apply-posix/export.h',
   '../include/libpkgreconcile-apply-posix/publication.h',

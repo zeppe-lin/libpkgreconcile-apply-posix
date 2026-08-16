@@ -97,6 +97,18 @@ if get_option('tests').allowed()
     )
   endforeach
 
+
+  test(
+    'subproject',
+    sh,
+    args: [
+      meson.current_source_dir() / 'contracts/check_subproject_contract.sh',
+      meson.project_source_root(),
+      meson.project_name(),
+    ],
+    suite: 'contract',
+  )
+
   test(
     'pkgconfig-metadata',
     sh,
