@@ -10,13 +10,23 @@ fail() { echo "pkgconfig-metadata-contract: $*" >&2; [ ! -f "$pc" ] || cat "$pc"
 version=$(sed -n 's/^Version:[[:space:]]*//p' "$pc")
 [ "$version" = "$expected_version" ] || fail "version is '$version', expected '$expected_version'"
 requires=$(sed -n 's/^Requires:[[:space:]]*//p' "$pc")
-for required in \
-  'libpkgreconcile-apply >= 0.1.1' \
-  'libpkgapply-posix >= 3.2.1' \
-  'libpkgreconcile-posix >= 0.1.0'; do
-  printf '%s\n' "$requires" | grep -F "$required" >/dev/null || fail "missing public dependency: $required"
-done
-if printf '%s\n' "$requires" | grep -E 'libpkgstate|pkgctl|libpkgtransaction' >/dev/null; then
-  fail 'state/controller/transaction dependency leaked into pkg-config'
+normalized=$(printf '%s\n' "$requires" |
+  tr ',' '\n' |
+  sed 's/^[[:space:]]*//; s/[[:space:]]*$//; s/[[:space:]][[:space:]]*/ /g' |
+  sed '/^$/d')
+count=$(printf '%s\n' "$normalized" | wc -l | tr -d ' ')
+[ "$count" -eq 4 ] || fail "public dependency closure has $count clauses, expected 4"
+require_once()
+{
+  clause=$1
+  matches=$(printf '%s\n' "$normalized" | grep -Fxc "$clause" || true)
+  [ "$matches" -eq 1 ] || fail "dependency clause '$clause' occurs $matches times"
+}
+require_once 'libpkgreconcile-apply >= 0.1.2'
+require_once 'libpkgapply-posix >= 4.0.0'
+require_once 'libpkgapply-posix < 5.0.0'
+require_once 'libpkgreconcile-posix >= 0.1.0'
+if printf '%s\n' "$normalized" | grep -E 'libpkgstate|pkgctl|libpkgtransaction|libpkgapply([[:space:]]|$)' >/dev/null; then
+  fail 'state/controller/transaction/core-apply dependency leaked into pkg-config'
 fi
 printf '%s\n' 'pkgconfig-metadata-contract: ok'

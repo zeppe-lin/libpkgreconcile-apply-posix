@@ -1,5 +1,18 @@
 # History
 
+## 0.1.2
+
+Application-generation-4 provider rebind.
+
+- Require `libpkgreconcile-apply >= 0.1.2` and
+  `libpkgapply-posix >= 4.0.0,<5.0.0`, so rejected-object verification is
+  composed only with the owner-journal generation of the application provider.
+- Qualify the shared product against `libpkgapply-posix.so.3` while preserving
+  `libpkgreconcile-apply-posix.so.0`; the public publication symbol and provider
+  object reference boundary are unchanged.
+- Derive installed pkg-config requirements from the same Meson dependency
+  objects used for compilation and linking, rejecting duplicate metadata.
+
 ## 0.1.1
 
 Source-ABI-4 provider-closure release.

@@ -11,6 +11,7 @@ for required in \
   src/publication.cpp src/meson.build \
   abi/libpkgreconcile-apply-posix.exports \
   scripts/generate-elf-export-script.sh \
+  ci/audit-shared-boundary.sh \
   tests/meson.build; do
   [ -s "$root/$required" ] || fail "missing or empty $required"
 done

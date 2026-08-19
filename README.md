@@ -72,8 +72,8 @@ providers: `pkgapply::posix::rejected_store_error` and
 
 The product dependency boundary is exactly:
 
-- `libpkgreconcile-apply >= 0.1.1`;
-- `libpkgapply-posix >= 3.2.1`;
+- `libpkgreconcile-apply >= 0.1.2`;
+- `libpkgapply-posix >= 4.0.0,<5.0.0`;
 - `libpkgreconcile-posix >= 0.1.0`.
 
 Planner/build libraries used by the integration fixture are qualification-only.

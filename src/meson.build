@@ -65,8 +65,8 @@ pkgconf.generate(
   description: 'Verified POSIX publication of completed rejected evidence',
   version: meson.project_version(),
   requires: [
-    'libpkgreconcile-apply >= 0.1.1',
-    'libpkgapply-posix >= 3.2.1',
-    'libpkgreconcile-posix >= 0.1.0',
+    libpkgreconcile_apply_dep,
+    libpkgapply_posix_dep,
+    libpkgreconcile_posix_dep,
   ],
 )

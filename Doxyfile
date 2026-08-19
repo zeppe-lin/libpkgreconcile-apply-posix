@@ -1,5 +1,5 @@
 PROJECT_NAME            = libpkgreconcile-apply-posix
-PROJECT_NUMBER          = 0.1.1
+PROJECT_NUMBER          = 0.1.2
 OUTPUT_DIRECTORY        = doc
 INPUT                   = include src
 RECURSIVE               = YES

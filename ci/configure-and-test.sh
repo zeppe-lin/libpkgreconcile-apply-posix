@@ -73,5 +73,8 @@ for suite in unit integration header contract; do
 done
 meson test -C "$build/product" --no-rebuild --print-errorlogs
 meson install -C "$build/product"
+if [ "$link_mode" = shared ]; then
+  "$root/ci/audit-shared-boundary.sh" "$install_prefix/lib/libpkgreconcile-apply-posix.so.0"
+fi
 printf '%s\n' "$dependency_prefix" >"$build/ci-dependency-prefix"
 printf '%s\n' "$install_prefix" >"$build/ci-install-prefix"

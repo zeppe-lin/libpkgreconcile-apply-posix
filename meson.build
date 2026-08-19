@@ -4,7 +4,7 @@
 project(
   'libpkgreconcile-apply-posix',
   'cpp',
-  version: '0.1.1',
+  version: '0.1.2',
   license: 'GPL-3.0-or-later',
   meson_version: '>=1.6.0',
   default_options: [
@@ -36,14 +36,14 @@ pkgconf = import('pkgconfig')
 
 libpkgreconcile_apply_dep = dependency(
   'libpkgreconcile-apply',
-  version: '>=0.1.1',
+  version: '>=0.1.2',
   required: true,
   static: want_static
 )
 
 libpkgapply_posix_dep = dependency(
   'libpkgapply-posix',
-  version: '>=3.2.1',
+  version: ['>=4.0.0', '<5.0.0'],
   required: true,
   static: want_static
 )
